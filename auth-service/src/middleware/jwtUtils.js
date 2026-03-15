@@ -11,4 +11,12 @@ const generateToken = (user) => {
   );
 };
 
-module.exports = { generateToken, secret };
+function verifyToken(token) {
+  try {
+    return jwt.verify(token, secret);
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
+
+module.exports = { generateToken, verifyToken, secret };

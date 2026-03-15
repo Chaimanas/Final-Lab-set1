@@ -65,9 +65,9 @@ CREATE INDEX IF NOT EXISTS idx_logs_created_at ON logs(created_at DESC);
 -- ═══════════════════════════════════════════════
 
 INSERT INTO users (username, email, password_hash, role) VALUES
-  ('alice', 'alice@lab.local', '$2b$10$B00T7P7S9XyG3V.A.W.vBeM7vQ7.v7N6G6M3N6M3N6M3N6M3N6M3N', 'member'),
-  ('bob',   'bob@lab.local',   '$2b$10$K7X8P8S8XyG3V.A.W.vBeM7vQ7.v7N6G6M3N6M3N6M3N6M3N6M3N', 'member'),
-  ('admin', 'admin@lab.local', '$2b$10$P9Z9P9S9XyG3V.A.W.vBeM7vQ7.v7N6G6M3N6M3N6M3N6M3N6M3N', 'admin')
+  ('alice', 'alice@lab.local', '$2a$10$fBV4RtdrhxvH60OkuhxMB.A.aKQsd.8rnrmFbwM5ULWZg/MwQjiXG', 'member'),
+  ('bob',   'bob@lab.local',   '$2a$10$XtPfGZTHSUgHRG2F8vgZB.NLFdaH0mgmlWLSGUgQH98xto1O2qcM6', 'member'),
+  ('admin', 'admin@lab.local', '$2a$10$TRB8CzLFKprecgVZdn8LdeDFHnYN1edCVxU8CpU54fcs1U0my.7Wi', 'admin')
 ON CONFLICT (username) DO UPDATE SET
   email = EXCLUDED.email,
   password_hash = EXCLUDED.password_hash,

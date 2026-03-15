@@ -39,13 +39,22 @@ router.post('/login', async (req, res) => {
     );
 
     const user = result.rows[0] || null;
-    const passwordHash = user ? user.password_hash : DUMMY_BCRYPT_HASH;
     
-    // ✅ จุดสำคัญ: ถ้าจะ Hardcode เพื่อส่งงาน ให้เปลี่ยนบรรทัดล่างเป็น: const isValid = (password === 'password123');
- 
-const isValid = (password === 'password123');
+    // Debug logging
+    console.log(`[AUTH] Login attempt - Email: ${normalizedEmail}, User found: ${!!user}`);
+    
+    // Compare password with bcrypt hash
+    let isValid = false;
+    if (user) {
+      isValid = await bcrypt.compare(password, user.password_hash);
+      console.log(`[AUTH] Bcrypt compare result: ${isValid}, Hash: ${user.password_hash.substring(0, 15)}...`);
+    } else {
+      // Prevent timing attacks: still perform bcrypt comparison even if user not found
+      await bcrypt.compare(password, DUMMY_BCRYPT_HASH);
+      console.log(`[AUTH] User not found for: ${normalizedEmail}`);
+    }
 
-if (!user || !isValid) {
+    if (!user || !isValid) {
   await logEvent({
     level: 'WARN', event: 'LOGIN_FAILED', userId: user?.id || null,
     ip, method: 'POST', path: '/api/auth/login', statusCode: 401,
