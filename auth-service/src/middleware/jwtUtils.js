@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = process.env.JWT_SECRET || 'fallback-secret';
+const secret = process.env.JWT_SECRET || 'engse207-super-secret-change-in-production-abc123';
 const expires = process.env.JWT_EXPIRES || '1h';
 
 const generateToken = (user) => {
